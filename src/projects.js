@@ -5,7 +5,6 @@ const Project = (name) => {
 };
 
 const projectHTML = (project) => {
-
   const projectItem = document.createElement('div');
   projectItem.setAttribute('class', 'd-flex flex-column');
 
@@ -13,13 +12,8 @@ const projectHTML = (project) => {
   projectName.textContent = project.name;
   projectItem.appendChild(projectName);
 
-
   return projectItem;
 };
-
-
-
-
 
 function addProject(name) {
   const project = Project(name);
@@ -33,4 +27,17 @@ function addProject(name) {
 
 };
 
-export default addProject;
+function getProjects() {
+  const taskProject = document.querySelector("#taskProject");
+  taskProject.innerHTML = '';
+  const projectOption = document.createElement("Option");
+  projectOption.textContent = "Default";
+  taskProject.appendChild(projectOption);
+  for (let i = 0; i < projectList.length; i += 1) {
+    const projectOption = document.createElement("Option");
+    projectOption.textContent = projectList[i].name;
+    taskProject.appendChild(projectOption);
+  }
+};
+
+export {addProject, getProjects};
