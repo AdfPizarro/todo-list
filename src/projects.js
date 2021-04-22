@@ -1,4 +1,14 @@
-const projectList = [];
+let projectList=[];
+
+if(localStorage.getItem("projectList")=== null){
+    projectList=[]
+}else{
+    projectList=JSON.parse(localStorage.getItem("projectList"));
+
+
+}
+
+
 
 const Project = (name) => {
   return {name};
@@ -16,11 +26,16 @@ const projectHTML = (project) => {
 };
 
 function addProject(name) {
-  const project = Project(name);
+  const project = {name: Project(name)};
   projectList.push(project);
+  localStorage.setItem('projectList', JSON.stringify(projectList));
+  return drawProjects();
+};
+
+function drawProjects(){
   let projectsView = document.createElement('div');
   for (let i = 0; i < projectList.length; i += 1) {
-    const project = projectHTML(projectList[i])
+    const project = projectHTML(projectList[i].name)
     projectsView.appendChild(project);
   }
   return projectsView;
@@ -40,4 +55,4 @@ function getProjects() {
   }
 };
 
-export {addProject, getProjects};
+export {addProject, getProjects, drawProjects};

@@ -1,4 +1,4 @@
-import {addProject, getProjects} from './projects.js';
+import {addProject, getProjects, drawProjects} from './projects.js';
 import addTask from './tasks';
 
 const taskSubmit = document.querySelector('#taskSubmit');
@@ -22,4 +22,11 @@ projectSubmit.addEventListener('click', () => {
   projectContainer.innerHTML = '';
   projectContainer.append(addProject(name))
   getProjects();
+});
+
+window.addEventListener("load", function(){
+  console.log("Page loaded");
+  const projectContainer = document.querySelector('#projectContainer');
+  projectContainer.innerHTML = '';
+  projectContainer.append(drawProjects());
 });
