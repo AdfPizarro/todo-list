@@ -7,13 +7,17 @@
   </head>
   <body>
     <div class="content container">
-      
+
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectFormModal">
         Add New Project
       </button>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskFormModal">
-        Add New Task
-      </button>
+      <div id="taskView">
+        <br>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskFormModal">
+          Add New Task
+        </button>
+
+      </div>
 
       <div class="modal fade" id="taskFormModal">
         <div class="modal-dialog">
@@ -60,7 +64,7 @@
                   <label for="projectName" class="form-label">Project</label>
                   <input type="text" class="form-control" id="projectName">
                   <br>
-                  <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" id="taskSubmit">Save</button>
+                  <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" id="projectSubmit">Save</button>
                 </form>
               </div>
             </div>
