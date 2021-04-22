@@ -1,5 +1,6 @@
+import addProject from './projects';
 const taskList = [];
-const projectList = [];
+
 
 const taskSubmit = document.querySelector('#taskSubmit');
 
@@ -27,17 +28,11 @@ const Task = (name, description, priority, project, dueDate) => {
 const projectSubmit = document.querySelector('#projectSubmit');
 projectSubmit.addEventListener('click', () => {
   const name = document.getElementById('projectName').value;
-  addProject(name);
+  const projectContainer = document.querySelector('#projectContainer');
+  projectContainer.innerHTML = '';
+  projectContainer.append(addProject(name))
+
 });
-
-function addProject(name) {
-  const project = Task(name);
-  projectList.push(project);
-};
-
-const Project = (name) => {
-  return {name};
-};
 
 const TaskHTML = (task) => {
   const taskItem = document.createElement('div');
@@ -61,14 +56,14 @@ const TaskHTML = (task) => {
   taskItem.appendChild(itemName);
   taskItem.appendChild(itemBottom);
 
-  return { taskItem };
+  return taskItem;
 };
 
 function drawTask(taskList) {
   const taskView = document.querySelector('#taskView');
-
+  taskView.innerHTML = '';
   for (let i = 0; i < taskList.length; i += 1) {
     const task = TaskHTML(taskList[i])
-    taskView.appendChild(task.taskItem);
+    taskView.appendChild(task);
   }
 }
