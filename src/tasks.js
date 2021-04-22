@@ -1,4 +1,11 @@
-const taskList = [];
+let taskList = [];
+
+if(localStorage.getItem("taskList")=== null){
+    taskList=[];
+}else{
+    taskList=JSON.parse(localStorage.getItem("taskList"));
+
+}
 
 const Task = (name, description, priority, project, dueDate) => {
   return {name, description, priority, project, dueDate};
@@ -33,14 +40,22 @@ const TaskHTML = (task) => {
 };
 
 function addTask(name, description, priority, project, dueDate) {
-  const task = Task(name, description, priority, project, dueDate);
+  const task =  Task(name, description, priority, project, dueDate);
+  console.log(task);
   taskList.push(task);
-  const taskView = document.createElement('div');
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+
+  return drawTasks();
+};
+
+function drawTasks(){
+  let taskView = document.createElement('div');
   for (let i = 0; i < taskList.length; i += 1) {
     const task = TaskHTML(taskList[i])
     taskView.appendChild(task);
   }
   return taskView;
-};
 
-export default addTask;
+}
+
+export  {addTask, drawTasks};

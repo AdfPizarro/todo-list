@@ -1,14 +1,12 @@
 let projectList=[];
 
 if(localStorage.getItem("projectList")=== null){
-    projectList=[]
+    projectList=[];
 }else{
     projectList=JSON.parse(localStorage.getItem("projectList"));
 
 
 }
-
-
 
 const Project = (name) => {
   return {name};
@@ -50,7 +48,7 @@ function getProjects() {
   taskProject.appendChild(projectOption);
   for (let i = 0; i < projectList.length; i += 1) {
     const projectOption = document.createElement("Option");
-    projectOption.textContent = projectList[i].name;
+    projectOption.textContent = projectList[i].name.name;
     taskProject.appendChild(projectOption);
   }
 };
