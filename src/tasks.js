@@ -93,4 +93,4 @@ function drawTasksByProject(projectName){
   return taskView;
 }
 
-export  {addTask, drawTasks, drawTasksByProject};
+export  {addTask, drawTasksByProject};

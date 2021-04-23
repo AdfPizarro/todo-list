@@ -1,5 +1,5 @@
 import {addProject, getProjects, drawProjects} from './projects.js';
-import {addTask, drawTasks, drawTasksByProject} from './tasks.js';
+import {addTask, drawTasksByProject} from './tasks.js';
 
 const taskSubmit = document.querySelector('#taskSubmit');
 
@@ -12,6 +12,7 @@ taskSubmit.addEventListener('click', () => {
   const dueDate = document.getElementById('taskDueDate').value;
   taskContainer.innerHTML = '';
   taskContainer.append(addTask(name, description, priority, project, dueDate));
+    refreshEventListener();
 });
 
 const projectSubmit = document.querySelector('#projectSubmit');
@@ -22,6 +23,7 @@ projectSubmit.addEventListener('click', () => {
   projectContainer.innerHTML = '';
   projectContainer.append(addProject(name))
   getProjects();
+  refreshEventListener();
 });
 
 window.addEventListener("DOMContentLoaded", function(){
@@ -32,6 +34,12 @@ window.addEventListener("DOMContentLoaded", function(){
   projectContainer.append(drawProjects());
   taskContainer.append(drawTasksByProject("all"));
   getProjects();
+  refreshEventListener()
+
+});
+
+function refreshEventListener(){
+  console.log("Works??");
   const projectButton = document.querySelectorAll('.projectButton');
   projectButton.forEach((button) => {
     button.addEventListener('click', () => {
@@ -39,4 +47,4 @@ window.addEventListener("DOMContentLoaded", function(){
       taskContainer.append(drawTasksByProject(button.textContent));
     });
   });
-});
+}
