@@ -4,7 +4,6 @@ if(localStorage.getItem("taskList")=== null){
     taskList=[];
 }else{
     taskList=JSON.parse(localStorage.getItem("taskList"));
-    console.log(taskList);
 }
 
 const Task = (name, description, priority, project, dueDate, completed) => {
@@ -20,11 +19,17 @@ const TaskHTML = (task, i) => {
   const tdDueDate=document.createElement('td');
   const tdCompleted=document.createElement('td');
   const chkCompleted=document.createElement('button');
+  const dltButton=document.createElement('button');
 
   tdName.textContent=task.name
   tdDescription.textContent=task.description
   tdPriority.textContent=task.priority
   tdDueDate.textContent=task.dueDate
+
+
+  dltButton.setAttribute('id', `dlt${i}`);
+  dltButton.setAttribute('class', `mx-2 btn btn-danger deleteTask`);
+  dltButton.textContent="Delete"
 
   const btnColor = (task.completed) ? 'btn-success':'btn-danger';
   const btnText = (task.completed) ? 'Completed':'Pending';
@@ -42,6 +47,7 @@ const TaskHTML = (task, i) => {
   taskItem.appendChild(tdDueDate);
 
   taskItem.appendChild(tdCompleted);
+  tdCompleted.appendChild(dltButton);
 
 
   return taskItem;
@@ -75,7 +81,7 @@ function drawTasksByProject(projectName){
   head_description.textContent = "Description";
   head_priority.textContent = "Priority";
   head_dueDate.textContent = "Due date";
-  head_completed.textContent = "Completed";
+  head_completed.textContent = "Options";
 
 
 
@@ -115,4 +121,13 @@ function changeTask(index){
   localStorage.setItem('taskList', JSON.stringify(taskList));
 }
 
-export  {addTask, drawTasksByProject, changeTask};
+function dltTask(index){
+  const task=taskList.splice(index, 1);
+
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+  return drawTasksByProject(task[0].project)
+
+
+}
+
+export  {addTask, drawTasksByProject, changeTask, dltTask};

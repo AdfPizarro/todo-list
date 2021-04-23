@@ -1,5 +1,5 @@
 import {addProject, getProjects, drawProjects} from './projects.js';
-import {addTask, drawTasksByProject, changeTask} from './tasks.js';
+import {addTask, drawTasksByProject, changeTask, dltTask} from './tasks.js';
 
 const taskSubmit = document.querySelector('#taskSubmit');
 
@@ -35,7 +35,6 @@ window.addEventListener("DOMContentLoaded", function(){
   taskContainer.append(drawTasksByProject("all"));
   getProjects();
   refreshEventListener();
-  completTask();
 });
 
 function refreshEventListener(){
@@ -45,8 +44,11 @@ function refreshEventListener(){
       taskContainer.innerHTML = '';
       taskContainer.append(drawTasksByProject(button.textContent));
       completTask();
+      deleteTask();
     });
   });
+  completTask();
+  deleteTask();
 }
 
 function completTask(){
@@ -55,6 +57,17 @@ function completTask(){
     check.addEventListener('click', () => {
 
       changeTask(parseInt(check.id.match(/\d+/gm)));
+    });
+  });
+}
+
+function deleteTask(){
+  const deleteTask = document.querySelectorAll('.deleteTask');
+  deleteTask.forEach((button) => {
+    button.addEventListener('click', () => {
+      taskContainer.innerHTML = '';
+      taskContainer.append(dltTask(parseInt(button.id.match(/\d+/gm))));
+      refreshEventListener();
     });
   });
 }
