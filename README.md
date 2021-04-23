@@ -21,7 +21,7 @@ The Users are able to do the following:
 
 ## Live Demo
 
-[Live Demo Link](https://jpdf00.github.io/library-app/)
+[Todo List Live Demo](https://adfpizarro.github.io/todo-list/)
 
 ## Getting Started
 
