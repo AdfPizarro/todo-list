@@ -3,7 +3,7 @@
 # Todo-List App
 > Small app for tracking your activities.
 
-![screenshot](.imgs/app_screenshot.png)
+![screenshot](./imgs/app_screenshot.png)
 
 The Users are able to do the following:
  - Create new projects.
