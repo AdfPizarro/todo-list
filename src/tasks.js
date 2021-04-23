@@ -15,7 +15,7 @@ const TaskHTML = (task) => {
   const taskItem = document.createElement('div');
   taskItem.setAttribute('class', 'd-flex flex-column');
 
-  const itemName = document.createElement('h2');
+  const itemName = document.createElement('h4');
 
   const itemBottom = document.createElement('div');
   itemBottom.setAttribute('class', 'd-flex justify-content-between');
@@ -41,7 +41,6 @@ const TaskHTML = (task) => {
 
 function addTask(name, description, priority, project, dueDate) {
   const task =  Task(name, description, priority, project, dueDate);
-  console.log(task);
   taskList.push(task);
   localStorage.setItem('taskList', JSON.stringify(taskList));
 
@@ -55,7 +54,17 @@ function drawTasks(){
     taskView.appendChild(task);
   }
   return taskView;
-
 }
 
-export  {addTask, drawTasks};
+function drawTasksByProject(projectName){
+  let taskView = document.createElement('div');
+  for (let i = 0; i < taskList.length; i += 1) {
+    if (taskList[i].project == projectName){
+      const task = TaskHTML(taskList[i])
+      taskView.appendChild(task);
+    }
+  }
+  return taskView;
+}
+
+export  {addTask, drawTasks, drawTasksByProject};

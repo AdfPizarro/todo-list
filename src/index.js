@@ -1,5 +1,5 @@
 import {addProject, getProjects, drawProjects} from './projects.js';
-import {addTask, drawTasks} from './tasks.js';
+import {addTask, drawTasks, drawTasksByProject} from './tasks.js';
 
 const taskSubmit = document.querySelector('#taskSubmit');
 
@@ -24,14 +24,19 @@ projectSubmit.addEventListener('click', () => {
   getProjects();
 });
 
-window.addEventListener("load", function(){
+window.addEventListener("DOMContentLoaded", function(){
   const projectContainer = document.querySelector('#projectContainer');
   const taskContainer = document.querySelector('#taskContainer');
   taskContainer.innerHTML = '';
   projectContainer.innerHTML = '';
   projectContainer.append(drawProjects());
   taskContainer.append(drawTasks());
-
   getProjects();
-
+  const projectButton = document.querySelectorAll('.projectButton');
+  projectButton.forEach((button) => {
+    button.addEventListener('click', () => {
+      taskContainer.innerHTML = '';
+      taskContainer.append(drawTasksByProject(button.textContent));
+    });
+  });
 });

@@ -16,7 +16,9 @@ const projectHTML = (project) => {
   const projectItem = document.createElement('div');
   projectItem.setAttribute('class', 'd-flex flex-column');
 
-  const projectName = document.createElement('h4');
+  const projectName = document.createElement('a');
+  projectName.setAttribute('class', 'projectButton text-decoration-none');
+  projectName.setAttribute('href', '#');
   projectName.textContent = project.name;
   projectItem.appendChild(projectName);
 
@@ -32,6 +34,12 @@ function addProject(name) {
 
 function drawProjects(){
   let projectsView = document.createElement('div');
+  const projectDefault = document.createElement("a");
+  projectDefault.setAttribute('class', 'projectButton text-decoration-none');
+  projectDefault.setAttribute('href', '#');
+  projectDefault.textContent = "Default";
+  projectsView.appendChild(projectDefault);
+
   for (let i = 0; i < projectList.length; i += 1) {
     const project = projectHTML(projectList[i].name)
     projectsView.appendChild(project);
