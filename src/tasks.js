@@ -4,14 +4,14 @@ if(localStorage.getItem("taskList")=== null){
     taskList=[];
 }else{
     taskList=JSON.parse(localStorage.getItem("taskList"));
-
+    console.log(taskList);
 }
 
 const Task = (name, description, priority, project, dueDate, completed) => {
   return {name, description, priority, project, dueDate, completed};
 };
 
-const TaskHTML = (task) => {
+const TaskHTML = (task, i) => {
   const taskItem=document.createElement('tr');
 
   const tdName=document.createElement('td');
@@ -19,14 +19,21 @@ const TaskHTML = (task) => {
   const tdPriority=document.createElement('td');
   const tdDueDate=document.createElement('td');
   const tdCompleted=document.createElement('td');
-  const chkCompleted=document.createElement('input');
+  const chkCompleted=document.createElement('button');
 
   tdName.textContent=task.name
   tdDescription.textContent=task.description
   tdPriority.textContent=task.priority
   tdDueDate.textContent=task.dueDate
-  chkCompleted.setAttribute('type', 'checkbox');
-  chkCompleted.setAttribute('value', task.completed);
+
+  const btnColor = (task.completed) ? 'btn-success':'btn-danger';
+  const btnText = (task.completed) ? 'Completed':'Pending';
+
+  chkCompleted.setAttribute('class', `completTask btn ${btnColor}`);
+  chkCompleted.setAttribute('id', `btnCompleted${i}`);
+  chkCompleted.textContent = btnText;
+
+
 
   tdCompleted.appendChild(chkCompleted);
   taskItem.appendChild(tdName);
@@ -84,7 +91,7 @@ function drawTasksByProject(projectName){
 
   for (let i = 0; i < taskList.length; i += 1) {
     if (taskList[i].project == projectName || projectName==="all"){
-      const task = TaskHTML(taskList[i])
+      const task = TaskHTML(taskList[i], i)
       tbody.appendChild(task);
     }
   }
@@ -93,4 +100,19 @@ function drawTasksByProject(projectName){
   return taskView;
 }
 
-export  {addTask, drawTasksByProject};
+function changeTask(index){
+  if (taskList[index].completed){
+    taskList[index].completed = false;
+    const chkCompleted = document.getElementById(`btnCompleted${index}`)
+    chkCompleted.setAttribute('class', `completTask btn btn-danger`);
+    chkCompleted.textContent = "Pending";
+  } else {
+    taskList[index].completed = true;
+    const chkCompleted = document.getElementById(`btnCompleted${index}`)
+    chkCompleted.setAttribute('class', `completTask btn btn-success`);
+    chkCompleted.textContent = "Completed";
+  };
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+}
+
+export  {addTask, drawTasksByProject, changeTask};
