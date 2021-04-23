@@ -44,6 +44,7 @@ function refreshEventListener(){
     button.addEventListener('click', () => {
       taskContainer.innerHTML = '';
       taskContainer.append(drawTasksByProject(button.textContent));
+      completTask();
     });
   });
 }
