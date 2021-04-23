@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", function(){
   taskContainer.innerHTML = '';
   projectContainer.innerHTML = '';
   projectContainer.append(drawProjects());
-  taskContainer.append(drawTasks());
+  taskContainer.append(drawTasksByProject("all"));
   getProjects();
   const projectButton = document.querySelectorAll('.projectButton');
   projectButton.forEach((button) => {

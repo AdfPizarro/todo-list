@@ -7,63 +7,89 @@ if(localStorage.getItem("taskList")=== null){
 
 }
 
-const Task = (name, description, priority, project, dueDate) => {
-  return {name, description, priority, project, dueDate};
+const Task = (name, description, priority, project, dueDate, completed) => {
+  return {name, description, priority, project, dueDate, completed};
 };
 
 const TaskHTML = (task) => {
-  const taskItem = document.createElement('div');
-  taskItem.setAttribute('class', 'd-flex flex-column');
+  const taskItem=document.createElement('tr');
 
-  const itemName = document.createElement('h4');
+  const tdName=document.createElement('td');
+  const tdDescription=document.createElement('td');
+  const tdPriority=document.createElement('td');
+  const tdDueDate=document.createElement('td');
+  const tdCompleted=document.createElement('td');
+  const chkCompleted=document.createElement('input');
 
-  const itemBottom = document.createElement('div');
-  itemBottom.setAttribute('class', 'd-flex justify-content-between');
+  tdName.textContent=task.name
+  tdDescription.textContent=task.description
+  tdPriority.textContent=task.priority
+  tdDueDate.textContent=task.dueDate
+  chkCompleted.setAttribute('type', 'checkbox');
+  chkCompleted.setAttribute('value', task.completed);
 
-  const itemDescription = document.createElement('p');
-  const itemProject = document.createElement('p');
-  const itemDueDate = document.createElement('p');
+  tdCompleted.appendChild(chkCompleted);
+  taskItem.appendChild(tdName);
+  taskItem.appendChild(tdDescription);
+  taskItem.appendChild(tdPriority);
+  taskItem.appendChild(tdDueDate);
 
-  itemName.textContent = task.name;
-  itemDescription.textContent = task.description;
-  itemProject.textContent = task.project;
-  itemDueDate.textContent = task.dueDate;
+  taskItem.appendChild(tdCompleted);
 
-  itemBottom.appendChild(itemDescription);
-  itemBottom.appendChild(itemProject);
-  itemBottom.appendChild(itemDueDate);
-
-  taskItem.appendChild(itemName);
-  taskItem.appendChild(itemBottom);
 
   return taskItem;
 };
 
 function addTask(name, description, priority, project, dueDate) {
-  const task =  Task(name, description, priority, project, dueDate);
+  const task =  Task(name, description, priority, project, dueDate, false);
   taskList.push(task);
   localStorage.setItem('taskList', JSON.stringify(taskList));
 
-  return drawTasks();
+  return drawTasksByProject("all");
 };
 
-function drawTasks(){
-  let taskView = document.createElement('div');
-  for (let i = 0; i < taskList.length; i += 1) {
-    const task = TaskHTML(taskList[i])
-    taskView.appendChild(task);
-  }
-  return taskView;
-}
-
 function drawTasksByProject(projectName){
-  let taskView = document.createElement('div');
+
+
+  const taskView=document.createElement('table');
+  const thead=document.createElement('thead');
+  const th_row=document.createElement('tr');
+  const head_name=document.createElement('th');
+  const head_description=document.createElement('th');
+  const head_priority=document.createElement('th');
+  const head_dueDate=document.createElement('th');
+  const head_completed=document.createElement('th');
+
+  const tbody=document.createElement('tbody');
+
+  taskView.setAttribute('class', 'table');
+  thead.setAttribute('class', 'thead-dark');
+  head_name.textContent = "Name";
+  head_description.textContent = "Description";
+  head_priority.textContent = "Priority";
+  head_dueDate.textContent = "Due date";
+  head_completed.textContent = "Completed";
+
+
+
+  th_row.appendChild(head_name);
+  th_row.appendChild(head_description);
+  th_row.appendChild(head_priority);
+  th_row.appendChild(head_dueDate);
+  th_row.appendChild(head_completed);
+
+  thead.appendChild(th_row);
+  taskView.appendChild(thead);
+
+
   for (let i = 0; i < taskList.length; i += 1) {
-    if (taskList[i].project == projectName){
+    if (taskList[i].project == projectName || projectName==="all"){
       const task = TaskHTML(taskList[i])
-      taskView.appendChild(task);
+      tbody.appendChild(task);
     }
   }
+
+  taskView.appendChild(tbody)
   return taskView;
 }
 
