@@ -1,5 +1,5 @@
 import {addProject, getProjects, drawProjects} from './projects.js';
-import {addTask, drawTasksByProject, changeTask, dltTask} from './tasks.js';
+import {addTask, drawTasksByProject, changeTask, dltTask, changePriority} from './tasks.js';
 
 const taskSubmit = document.querySelector('#taskSubmit');
 
@@ -45,10 +45,12 @@ function refreshEventListener(){
       taskContainer.append(drawTasksByProject(button.textContent));
       completTask();
       deleteTask();
+      modifyPriority()
     });
   });
   completTask();
   deleteTask();
+  modifyPriority()
 }
 
 function completTask(){
@@ -57,6 +59,17 @@ function completTask(){
     check.addEventListener('click', () => {
 
       changeTask(parseInt(check.id.match(/\d+/gm)));
+    });
+  });
+}
+
+function modifyPriority(){
+
+  const priorityDropdown = document.querySelectorAll('.changePriority');
+  priorityDropdown.forEach((dropDown) => {
+    dropDown.addEventListener('change', () => {
+
+      changePriority(parseInt(dropDown.id.match(/\d+/gm)),dropDown.value);
     });
   });
 }

@@ -20,10 +20,30 @@ const TaskHTML = (task, i) => {
   const tdCompleted=document.createElement('td');
   const chkCompleted=document.createElement('button');
   const dltButton=document.createElement('button');
+  const priorityDropdown=document.createElement('select');
+  const pLow=document.createElement('option');
+  const pNormal=document.createElement('option');
+  const pUrgent=document.createElement('option');
+
+  pLow.textContent="Low";
+  pNormal.textContent="Normal";
+  pUrgent.textContent="Urgent";
+
+  pLow.setAttribute('value', `Low`);
+  pNormal.setAttribute('value', `Normal`);
+  pUrgent.setAttribute('value', `Urgent`);
+
+  priorityDropdown.appendChild(pLow);
+  priorityDropdown.appendChild(pNormal);
+  priorityDropdown.appendChild(pUrgent);
+  priorityDropdown.value=task.priority;
+
+  priorityDropdown.setAttribute('class', `form-select changePriority`);
+  priorityDropdown.setAttribute('id', `changePriority${i}`);
 
   tdName.textContent=task.name
   tdDescription.textContent=task.description
-  tdPriority.textContent=task.priority
+  tdPriority.appendChild(priorityDropdown);
   tdDueDate.textContent=task.dueDate
 
 
@@ -121,6 +141,12 @@ function changeTask(index){
   localStorage.setItem('taskList', JSON.stringify(taskList));
 }
 
+function changePriority(index, priority){
+  taskList[index].priority = priority;
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+}
+
+
 function dltTask(index){
   const task=taskList.splice(index, 1);
 
@@ -130,4 +156,4 @@ function dltTask(index){
 
 }
 
-export  {addTask, drawTasksByProject, changeTask, dltTask};
+export  {addTask, drawTasksByProject, changeTask, dltTask, changePriority};
