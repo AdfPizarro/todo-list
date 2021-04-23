@@ -1,16 +1,12 @@
-let projectList=[];
+let projectList = [];
 
-if(localStorage.getItem("projectList")=== null){
-    projectList=[];
-}else{
-    projectList=JSON.parse(localStorage.getItem("projectList"));
-
-
+if (localStorage.getItem('projectList') === null) {
+  projectList = [];
+} else {
+  projectList = JSON.parse(localStorage.getItem('projectList'));
 }
 
-const Project = (name) => {
-  return {name};
-};
+const Project = (name) => ({ name });
 
 const projectHTML = (project) => {
   const projectItem = document.createElement('div');
@@ -25,40 +21,39 @@ const projectHTML = (project) => {
   return projectItem;
 };
 
-function addProject(name) {
-  const project = {name: Project(name)};
-  projectList.push(project);
-  localStorage.setItem('projectList', JSON.stringify(projectList));
-  return drawProjects();
-};
-
-function drawProjects(){
-  let projectsView = document.createElement('div');
-  const projectDefault = document.createElement("a");
+function drawProjects() {
+  const projectsView = document.createElement('div');
+  const projectDefault = document.createElement('a');
   projectDefault.setAttribute('class', 'projectButton text-decoration-none');
   projectDefault.setAttribute('href', '#');
-  projectDefault.textContent = "Default";
+  projectDefault.textContent = 'Default';
   projectsView.appendChild(projectDefault);
 
   for (let i = 0; i < projectList.length; i += 1) {
-    const project = projectHTML(projectList[i].name)
+    const project = projectHTML(projectList[i].name);
     projectsView.appendChild(project);
   }
   return projectsView;
+}
 
-};
+function addProject(name) {
+  const project = { name: Project(name) };
+  projectList.push(project);
+  localStorage.setItem('projectList', JSON.stringify(projectList));
+  return drawProjects();
+}
 
 function getProjects() {
-  const taskProject = document.querySelector("#taskProject");
+  const taskProject = document.querySelector('#taskProject');
   taskProject.innerHTML = '';
-  const projectOption = document.createElement("Option");
-  projectOption.textContent = "Default";
+  const projectOption = document.createElement('Option');
+  projectOption.textContent = 'Default';
   taskProject.appendChild(projectOption);
   for (let i = 0; i < projectList.length; i += 1) {
-    const projectOption = document.createElement("Option");
+    const projectOption = document.createElement('Option');
     projectOption.textContent = projectList[i].name.name;
     taskProject.appendChild(projectOption);
   }
-};
+}
 
-export {addProject, getProjects, drawProjects};
+export { addProject, getProjects, drawProjects };
