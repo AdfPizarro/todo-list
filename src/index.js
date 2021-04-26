@@ -1,6 +1,6 @@
 import { addProject, getProjects, drawProjects } from './projects';
 import {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask,
 } from './tasks';
 
 function completTask() {
@@ -31,12 +31,13 @@ function deleteTask() {
 }
 
 function saveTask() {
-  const save = document.querySelector('.updateTask')
+  const save = document.querySelector('.updateTask');
   save.addEventListener('click', () => {
     const project = updateTask(parseInt(save.id.match(/\d+/gm), 10));
     const editForm = document.querySelector('#trForm');
     const tBody = document.getElementById('tableBody');
     tBody.removeChild(editForm);
+    const taskContainer = document.querySelector('#taskContainer');
     taskContainer.innerHTML = '';
     taskContainer.append(drawTasksByProject(project));
     editTask();

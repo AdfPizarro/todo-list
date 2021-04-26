@@ -164,7 +164,7 @@ function dltTask(index) {
 
 function createFormTasks(task, i) {
   const taskForm = document.createElement('tr');
-  taskForm.setAttribute('id', "trForm");
+  taskForm.setAttribute('id', 'trForm');
 
   const tdName = document.createElement('td');
   const tdDescription = document.createElement('td');
@@ -181,7 +181,7 @@ function createFormTasks(task, i) {
 
   saveTask.setAttribute('class', 'btn btn-primary updateTask');
   saveTask.setAttribute('id', `task${i}`);
-  saveTask.textContent = "Save"
+  saveTask.textContent = 'Save';
 
   pLow.textContent = 'Low';
   pNormal.textContent = 'Normal';
@@ -190,7 +190,6 @@ function createFormTasks(task, i) {
   pLow.setAttribute('value', 'Low');
   pNormal.setAttribute('value', 'Normal');
   pUrgent.setAttribute('value', 'Urgent');
-
 
   const inputName = document.createElement('input');
   inputName.setAttribute('type', 'text');
@@ -208,8 +207,6 @@ function createFormTasks(task, i) {
 
   const inputProject = document.createElement('select');
   inputProject.setAttribute('id', 'editProjectForm');
-
-
 
   const inputDueDate = document.createElement('input');
   inputDueDate.setAttribute('type', 'date');
@@ -241,17 +238,15 @@ function insertAfter(newNode, existingNode) {
   if (!isEdited) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
     isEdited = true;
-  }else{
-    console.log("you can only edit one at a time")
   }
-};
+}
 
-function updateTask(index){
-  taskList[index].name=document.querySelector("#formName").value;
-  taskList[index].description=document.querySelector("#formDescription").value;
-  taskList[index].priority=document.querySelector("#formPriority").value;
-  taskList[index].project=document.querySelector("#editProjectForm").value;
-  taskList[index].dueDate=document.querySelector("#formDate").value;
+function updateTask(index) {
+  taskList[index].name = document.querySelector('#formName').value;
+  taskList[index].description = document.querySelector('#formDescription').value;
+  taskList[index].priority = document.querySelector('#formPriority').value;
+  taskList[index].project = document.querySelector('#editProjectForm').value;
+  taskList[index].dueDate = document.querySelector('#formDate').value;
   localStorage.setItem('taskList', JSON.stringify(taskList));
   isEdited = false;
   return taskList[index].project;
@@ -261,13 +256,11 @@ function drawFormTasks(index) {
   const task = taskList[index];
   const editForm = createFormTasks(task, index);
   const taskRow = document.getElementById(`tr${index}`);
-  taskRow.setAttribute("hidden", true);
+  taskRow.setAttribute('hidden', true);
   insertAfter(editForm, taskRow);
   getProjects('#editProjectForm');
-};
-
-
+}
 
 export {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask,
 };
