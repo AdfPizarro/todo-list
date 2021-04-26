@@ -171,22 +171,49 @@ function createFormTasks(task, i) {
   const tdPriority = document.createElement('td');
   const tdProject = document.createElement('td');
   const tdDueDate = document.createElement('td');
+  const tdOptions = document.createElement('td');
+
+  const pLow = document.createElement('option');
+  const pNormal = document.createElement('option');
+  const pUrgent = document.createElement('option');
+
+  const saveTask = document.createElement('button');
+
+  saveTask.setAttribute('class', 'btn btn-primary updateTask');
+  saveTask.setAttribute('id', `task${i}`);
+  saveTask.textContent = "Save"
+
+  pLow.textContent = 'Low';
+  pNormal.textContent = 'Normal';
+  pUrgent.textContent = 'Urgent';
+
+  pLow.setAttribute('value', 'Low');
+  pNormal.setAttribute('value', 'Normal');
+  pUrgent.setAttribute('value', 'Urgent');
+
 
   const inputName = document.createElement('input');
   inputName.setAttribute('type', 'text');
+  inputName.setAttribute('id', 'formName');
 
   const inputDescription = document.createElement('input');
   inputDescription.setAttribute('type', 'text');
+  inputDescription.setAttribute('id', 'formDescription');
 
-  const inputPriority = document.createElement('input');
-  inputPriority.setAttribute('type', 'text');
-  inputPriority.setAttribute("disabled", true);
+  const inputPriority = document.createElement('select');
+  inputPriority.appendChild(pLow);
+  inputPriority.appendChild(pNormal);
+  inputPriority.appendChild(pUrgent);
+  inputPriority.setAttribute('id', 'formPriority');
 
   const inputProject = document.createElement('select');
   inputProject.setAttribute('id', 'editProjectForm');
 
+
+
   const inputDueDate = document.createElement('input');
   inputDueDate.setAttribute('type', 'date');
+  inputDueDate.setAttribute('id', 'formDate');
 
   inputName.value = task.name;
   inputDescription.value = task.description;
@@ -198,12 +225,14 @@ function createFormTasks(task, i) {
   tdPriority.appendChild(inputPriority);
   tdProject.appendChild(inputProject);
   tdDueDate.appendChild(inputDueDate);
+  tdOptions.appendChild(saveTask);
 
   taskForm.appendChild(tdName);
   taskForm.appendChild(tdDescription);
   taskForm.appendChild(tdPriority);
   taskForm.appendChild(tdProject);
   taskForm.appendChild(tdDueDate);
+  taskForm.appendChild(tdOptions);
 
   return taskForm;
 }
@@ -212,18 +241,33 @@ function insertAfter(newNode, existingNode) {
   if (!isEdited) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
     isEdited = true;
-  };
+  }else{
+    console.log("you can only edit one at a time")
+  }
 };
+
+function updateTask(index){
+  taskList[index].name=document.querySelector("#formName").value;
+  taskList[index].description=document.querySelector("#formDescription").value;
+  taskList[index].priority=document.querySelector("#formPriority").value;
+  taskList[index].project=document.querySelector("#editProjectForm").value;
+  taskList[index].dueDate=document.querySelector("#formDate").value;
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+
+}
 
 function drawFormTasks(index) {
   const task = taskList[index];
   const editForm = createFormTasks(task, index);
   const taskRow = document.getElementById(`tr${index}`);
   const tBody = document.getElementById('tableBody');
+  taskRow.setAttribute("hidden", true);
   insertAfter(editForm, taskRow);
   getProjects('#editProjectForm');
 };
 
+
+
 export {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask
 };

@@ -1,6 +1,6 @@
 import { addProject, getProjects, drawProjects } from './projects';
 import {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask
 } from './tasks';
 
 function completTask() {
@@ -36,6 +36,18 @@ function editTask() {
     button.addEventListener('click', () => {
       drawFormTasks(parseInt(button.id.match(/\d+/gm), 10));
     });
+  });
+}
+
+function saveTask(){
+  const save = document.querySelector('.updateTask')
+  save.addEventListener('click', () => {
+    updateTask(parseInt(save.id.match(/\d+/gm), 10));
+    tBody.removeChild(editForm);
+    isEdited=false;
+    taskContainer.innerHTML = '';
+    taskContainer.append(drawTasksByProject(taskList[index].project));
+    editTask()
   });
 }
 
