@@ -30,24 +30,26 @@ function deleteTask() {
   });
 }
 
+function saveTask() {
+  const save = document.querySelector('.updateTask')
+  save.addEventListener('click', () => {
+    const project = updateTask(parseInt(save.id.match(/\d+/gm), 10));
+    const editForm = document.querySelector('#trForm');
+    const tBody = document.getElementById('tableBody');
+    tBody.removeChild(editForm);
+    taskContainer.innerHTML = '';
+    taskContainer.append(drawTasksByProject(project));
+    editTask();
+  });
+}
+
 function editTask() {
   const editTask = document.querySelectorAll('.editTask');
   editTask.forEach((button) => {
     button.addEventListener('click', () => {
       drawFormTasks(parseInt(button.id.match(/\d+/gm), 10));
+      saveTask();
     });
-  });
-}
-
-function saveTask(){
-  const save = document.querySelector('.updateTask')
-  save.addEventListener('click', () => {
-    updateTask(parseInt(save.id.match(/\d+/gm), 10));
-    tBody.removeChild(editForm);
-    isEdited=false;
-    taskContainer.innerHTML = '';
-    taskContainer.append(drawTasksByProject(taskList[index].project));
-    editTask()
   });
 }
 

@@ -164,7 +164,7 @@ function dltTask(index) {
 
 function createFormTasks(task, i) {
   const taskForm = document.createElement('tr');
-  taskForm.setAttribute('id', `trForm${i}`);
+  taskForm.setAttribute('id', "trForm");
 
   const tdName = document.createElement('td');
   const tdDescription = document.createElement('td');
@@ -253,14 +253,14 @@ function updateTask(index){
   taskList[index].project=document.querySelector("#editProjectForm").value;
   taskList[index].dueDate=document.querySelector("#formDate").value;
   localStorage.setItem('taskList', JSON.stringify(taskList));
-
+  isEdited = false;
+  return taskList[index].project;
 }
 
 function drawFormTasks(index) {
   const task = taskList[index];
   const editForm = createFormTasks(task, index);
   const taskRow = document.getElementById(`tr${index}`);
-  const tBody = document.getElementById('tableBody');
   taskRow.setAttribute("hidden", true);
   insertAfter(editForm, taskRow);
   getProjects('#editProjectForm');
