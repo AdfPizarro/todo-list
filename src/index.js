@@ -1,6 +1,6 @@
 import { addProject, getProjects, drawProjects } from './projects';
 import {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority,
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks
 } from './tasks';
 
 function completTask() {
@@ -30,6 +30,15 @@ function deleteTask() {
   });
 }
 
+function editTask() {
+  const editTask = document.querySelectorAll('.editTask');
+  editTask.forEach((button) => {
+    button.addEventListener('click', () => {
+      drawFormTasks(parseInt(button.id.match(/\d+/gm), 10));
+    });
+  });
+}
+
 function refreshEventListener() {
   const projectButton = document.querySelectorAll('.projectButton');
   projectButton.forEach((button) => {
@@ -40,11 +49,13 @@ function refreshEventListener() {
       completTask();
       deleteTask();
       modifyPriority();
+      editTask();
     });
   });
   completTask();
   deleteTask();
   modifyPriority();
+  editTask();
 }
 
 const taskSubmit = document.querySelector('#taskSubmit');
@@ -68,7 +79,7 @@ projectSubmit.addEventListener('click', () => {
   const name = document.getElementById('projectName').value;
   projectContainer.innerHTML = '';
   projectContainer.append(addProject(name));
-  getProjects();
+  getProjects('#taskProject');
   refreshEventListener();
 });
 
@@ -79,6 +90,6 @@ window.addEventListener('DOMContentLoaded', () => {
   projectContainer.innerHTML = '';
   projectContainer.append(drawProjects());
   taskContainer.append(drawTasksByProject('all'));
-  getProjects();
+  getProjects('#taskProject');
   refreshEventListener();
 });

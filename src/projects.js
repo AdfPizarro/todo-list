@@ -43,8 +43,8 @@ function addProject(name) {
   return drawProjects();
 }
 
-function getProjects() {
-  const taskProject = document.querySelector('#taskProject');
+function getProjects(objId) {
+  const taskProject = document.querySelector(objId);
   taskProject.innerHTML = '';
   const projectOption = document.createElement('Option');
   projectOption.textContent = 'Default';

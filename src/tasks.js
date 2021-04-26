@@ -1,4 +1,7 @@
+import { getProjects } from './projects';
+
 let taskList = [];
+let isEdited = false;
 
 if (localStorage.getItem('taskList') === null) {
   taskList = [];
@@ -17,10 +20,12 @@ const TaskHTML = (task, i) => {
   const tdName = document.createElement('td');
   const tdDescription = document.createElement('td');
   const tdPriority = document.createElement('td');
+  const tdProject = document.createElement('td');
   const tdDueDate = document.createElement('td');
   const tdCompleted = document.createElement('td');
   const chkCompleted = document.createElement('button');
   const dltButton = document.createElement('button');
+  const editButton = document.createElement('button');
   const priorityDropdown = document.createElement('select');
   const pLow = document.createElement('option');
   const pNormal = document.createElement('option');
@@ -45,11 +50,16 @@ const TaskHTML = (task, i) => {
   tdName.textContent = task.name;
   tdDescription.textContent = task.description;
   tdPriority.appendChild(priorityDropdown);
+  tdProject.textContent = task.project;
   tdDueDate.textContent = task.dueDate;
 
   dltButton.setAttribute('id', `dlt${i}`);
-  dltButton.setAttribute('class', 'mx-2 btn btn-danger deleteTask');
+  dltButton.setAttribute('class', 'm-2 btn btn-danger deleteTask');
   dltButton.textContent = 'Delete';
+
+  editButton.setAttribute('id', `edit${i}`);
+  editButton.setAttribute('class', 'm-2 btn btn-primary editTask');
+  editButton.textContent = 'Edit';
 
   const btnColor = (task.completed) ? 'btn-success' : 'btn-danger';
   const btnText = (task.completed) ? 'Completed' : 'Pending';
@@ -59,13 +69,15 @@ const TaskHTML = (task, i) => {
   chkCompleted.textContent = btnText;
 
   tdCompleted.appendChild(chkCompleted);
+  tdCompleted.appendChild(dltButton);
+  tdCompleted.appendChild(editButton);
   taskItem.appendChild(tdName);
   taskItem.appendChild(tdDescription);
   taskItem.appendChild(tdPriority);
+  taskItem.appendChild(tdProject);
   taskItem.appendChild(tdDueDate);
 
   taskItem.appendChild(tdCompleted);
-  tdCompleted.appendChild(dltButton);
 
   return taskItem;
 };
@@ -77,6 +89,7 @@ function drawTasksByProject(projectName) {
   const headName = document.createElement('th');
   const headDescription = document.createElement('th');
   const headPriority = document.createElement('th');
+  const headProject = document.createElement('th');
   const headDueDate = document.createElement('th');
   const headCompleted = document.createElement('th');
 
@@ -88,12 +101,14 @@ function drawTasksByProject(projectName) {
   headName.textContent = 'Name';
   headDescription.textContent = 'Description';
   headPriority.textContent = 'Priority';
+  headProject.textContent = 'Project';
   headDueDate.textContent = 'Due date';
   headCompleted.textContent = 'Options';
 
   thRow.appendChild(headName);
   thRow.appendChild(headDescription);
   thRow.appendChild(headPriority);
+  thRow.appendChild(headProject);
   thRow.appendChild(headDueDate);
   thRow.appendChild(headCompleted);
 
@@ -147,6 +162,68 @@ function dltTask(index) {
   localStorage.setItem('taskList', JSON.stringify(taskList));
 }
 
+function createFormTasks(task, i) {
+  const taskForm = document.createElement('tr');
+  taskForm.setAttribute('id', `trForm${i}`);
+
+  const tdName = document.createElement('td');
+  const tdDescription = document.createElement('td');
+  const tdPriority = document.createElement('td');
+  const tdProject = document.createElement('td');
+  const tdDueDate = document.createElement('td');
+
+  const inputName = document.createElement('input');
+  inputName.setAttribute('type', 'text');
+
+  const inputDescription = document.createElement('input');
+  inputDescription.setAttribute('type', 'text');
+
+  const inputPriority = document.createElement('input');
+  inputPriority.setAttribute('type', 'text');
+  inputPriority.setAttribute("disabled", true);
+
+  const inputProject = document.createElement('select');
+  inputProject.setAttribute('id', 'editProjectForm');
+
+  const inputDueDate = document.createElement('input');
+  inputDueDate.setAttribute('type', 'date');
+
+  inputName.value = task.name;
+  inputDescription.value = task.description;
+  inputPriority.value = task.priority;
+  inputDueDate.value = task.dueDate;
+
+  tdName.appendChild(inputName);
+  tdDescription.appendChild(inputDescription);
+  tdPriority.appendChild(inputPriority);
+  tdProject.appendChild(inputProject);
+  tdDueDate.appendChild(inputDueDate);
+
+  taskForm.appendChild(tdName);
+  taskForm.appendChild(tdDescription);
+  taskForm.appendChild(tdPriority);
+  taskForm.appendChild(tdProject);
+  taskForm.appendChild(tdDueDate);
+
+  return taskForm;
+}
+
+function insertAfter(newNode, existingNode) {
+  if (!isEdited) {
+    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+    isEdited = true;
+  };
+};
+
+function drawFormTasks(index) {
+  const task = taskList[index];
+  const editForm = createFormTasks(task, index);
+  const taskRow = document.getElementById(`tr${index}`);
+  const tBody = document.getElementById('tableBody');
+  insertAfter(editForm, taskRow);
+  getProjects('#editProjectForm');
+};
+
 export {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority,
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks
 };
