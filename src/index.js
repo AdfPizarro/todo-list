@@ -40,6 +40,7 @@ function saveTask() {
     const taskContainer = document.querySelector('#taskContainer');
     taskContainer.innerHTML = '';
     taskContainer.append(drawTasksByProject(project));
+    // eslint-disable-next-line no-use-before-define
     editTask();
   });
 }
