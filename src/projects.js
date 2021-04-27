@@ -30,14 +30,14 @@ function drawProjects() {
   projectsView.appendChild(projectDefault);
 
   for (let i = 0; i < projectList.length; i += 1) {
-    const project = projectHTML(projectList[i].name);
+    const project = projectHTML(projectList[i]);
     projectsView.appendChild(project);
   }
   return projectsView;
 }
 
 function addProject(name) {
-  const project = { name: Project(name) };
+  const project = Project(name);
   projectList.push(project);
   localStorage.setItem('projectList', JSON.stringify(projectList));
   return drawProjects();
@@ -51,7 +51,7 @@ function getProjects(objId) {
   taskProject.appendChild(projectOption);
   for (let i = 0; i < projectList.length; i += 1) {
     const projectOption = document.createElement('Option');
-    projectOption.textContent = projectList[i].name.name;
+    projectOption.textContent = projectList[i].name;
     taskProject.appendChild(projectOption);
   }
 }
