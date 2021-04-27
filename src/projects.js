@@ -39,7 +39,6 @@ function drawProjects() {
 function addProject(name) {
   const project = Project(name);
   projectList.push(project);
-  console.log(projectList);
   localStorage.setItem('projectList', JSON.stringify(projectList));
   return drawProjects();
 }
