@@ -262,5 +262,5 @@ function drawFormTasks(index) {
 }
 
 export {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask,
+  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask, Task
 };

@@ -56,4 +56,9 @@ function getProjects(objId) {
   }
 }
 
-export { addProject, getProjects, drawProjects };
+export {
+  addProject,
+  getProjects,
+  drawProjects,
+  Project
+};
