@@ -1,6 +1,14 @@
 import { addProject, getProjects, drawProjects } from './projects';
 import {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask,
+  addTask,
+  toggleTask,
+  drawTasksByProject,
+  changeTask,
+  dltTask,
+  removeDomTask,
+  changePriority,
+  drawFormTasks,
+  updateTask,
 } from './tasks';
 
 function completTask() {
@@ -8,6 +16,7 @@ function completTask() {
   completTask.forEach((check) => {
     check.addEventListener('click', () => {
       changeTask(parseInt(check.id.match(/\d+/gm), 10));
+      toggleTask(parseInt(check.id.match(/\d+/gm), 10));
     });
   });
 }
@@ -26,6 +35,7 @@ function deleteTask() {
   deleteTask.forEach((button) => {
     button.addEventListener('click', () => {
       dltTask(parseInt(button.id.match(/\d+/gm), 10));
+      removeDomTask(parseInt(button.id.match(/\d+/gm), 10));
     });
   });
 }
@@ -33,7 +43,12 @@ function deleteTask() {
 function saveTask() {
   const save = document.querySelector('.updateTask');
   save.addEventListener('click', () => {
-    const project = updateTask(parseInt(save.id.match(/\d+/gm), 10));
+    const name = document.querySelector('#formName').value;
+    const description = document.querySelector('#formDescription').value;
+    const priority = document.querySelector('#formPriority').value;
+    const projectName = document.querySelector('#editProjectForm').value;
+    const dueDate = document.querySelector('#formDate').value;
+    const project = updateTask(parseInt(save.id.match(/\d+/gm), 10), name, description, priority, projectName, dueDate);
     const editForm = document.querySelector('#trForm');
     const tBody = document.getElementById('tableBody');
     tBody.removeChild(editForm);
@@ -94,7 +109,14 @@ projectSubmit.addEventListener('click', () => {
   const projectContainer = document.querySelector('#projectContainer');
   const name = document.getElementById('projectName').value;
   projectContainer.innerHTML = '';
-  projectContainer.append(addProject(name));
+  const projectHtml = addProject(name);
+  if (projectHtml === 'error') {
+    const error = document.createElement('p');
+    error.textContent = 'Name can not be empty';
+    projectContainer.append(error);
+  } else {
+    projectContainer.append(projectHtml);
+  }
   getProjects('#taskProject');
   refreshEventListener();
 });

@@ -37,6 +37,9 @@ function drawProjects() {
 }
 
 function addProject(name) {
+  if (name === '') {
+    return 'error';
+  }
   const project = Project(name);
   projectList.push(project);
   localStorage.setItem('projectList', JSON.stringify(projectList));
@@ -60,5 +63,5 @@ export {
   addProject,
   getProjects,
   drawProjects,
-  Project
+  Project,
 };
