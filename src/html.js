@@ -79,4 +79,4 @@ const htmlBody = `
   </div>
 </div>`;
 
-export {htmlBody};
+export default htmlBody;

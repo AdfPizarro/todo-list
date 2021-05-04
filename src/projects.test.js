@@ -1,6 +1,8 @@
-import { screen } from '@testing-library/jest-dom'
+// eslint-disable-next-line no-unused-vars
+import { screen } from '@testing-library/jest-dom';
+import htmlBody from './html.js';
+
 const project = require('./projects');
-const body = require('./html.js')
 
 test('Add project to array', () => {
   project.addProject('project');
@@ -13,18 +15,15 @@ test('Add empty project to array', () => {
 });
 
 test('Create projects', () => {
-  document.body.innerHTML = body.htmlBody
-  const projectContainer = document.querySelector('#projectContainer')
-  let projectList = JSON.parse(localStorage.getItem('projectList'));
+  document.body.innerHTML = htmlBody;
+  const projectContainer = document.querySelector('#projectContainer');
   projectContainer.appendChild(project.drawProjects());
-  projectList = JSON.parse(localStorage.getItem('projectList'));
   expect(projectContainer).not.toBeEmptyDOMElement();
 });
 
 test('Create a list of projects for the form', () => {
-  document.body.innerHTML = body.htmlBody
-  let projectList = JSON.parse(localStorage.getItem('projectList'));
+  document.body.innerHTML = htmlBody;
   project.getProjects('#taskProject');
-  const taskProject = document.querySelector('#taskProject')
+  const taskProject = document.querySelector('#taskProject');
   expect(taskProject).toContainHTML('<option>Default</option>');
 });

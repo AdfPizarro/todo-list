@@ -1,4 +1,4 @@
-import { addProject, getProjects, drawProjects } from './projects';
+import { addProject, getProjects, drawProjects } from './projects.js';
 import {
   addTask,
   toggleTask,
@@ -9,7 +9,7 @@ import {
   changePriority,
   drawFormTasks,
   updateTask,
-} from './tasks';
+} from './tasks.js';
 
 function completTask() {
   const completTask = document.querySelectorAll('.completTask');

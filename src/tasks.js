@@ -1,4 +1,4 @@
-import { getProjects } from './projects';
+import { getProjects } from './projects.js';
 
 let taskList = [];
 let isEdited = false;
