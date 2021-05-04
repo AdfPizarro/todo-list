@@ -1,4 +1,6 @@
+import { screen } from '@testing-library/jest-dom'
 const tasks = require('./tasks');
+const body = require('./html.js');
 
 test('Add task to array', () => {
   tasks.addTask('name', 'description', 'priority', 'project', '2021-05-03T20:29:38.472Z');
@@ -74,4 +76,43 @@ test('Update task', () => {
   expect(taskList[taskList.length - 1].priority).toEqual('Updated priority');
   expect(taskList[taskList.length - 1].project).toEqual('Updated project');
   expect(taskList[taskList.length - 1].dueDate).toEqual('2021-05-03T20:29:38.472Z');
+});
+
+test('Create tasks by project', () => {
+  document.body.innerHTML = body.htmlBody
+  const taskContainer = document.querySelector('#taskContainer')
+  let taskList = JSON.parse(localStorage.getItem('taskList'));
+  taskContainer.appendChild(tasks.drawTasksByProject('all'));
+  taskList = JSON.parse(localStorage.getItem('taskList'));
+  expect(taskContainer).toHaveTextContent('Updated name');
+});
+
+test('Toggle task complete', () => {
+  document.body.innerHTML = body.htmlBody
+  const taskContainer = document.querySelector('#taskContainer')
+  let taskList = JSON.parse(localStorage.getItem('taskList'));
+  taskContainer.appendChild(tasks.drawTasksByProject('all'));
+  console.log(taskContainer);
+  taskList = JSON.parse(localStorage.getItem('taskList'));
+  tasks.toggleTask(0)
+  const button = document.querySelector('#btnCompleted0')
+  expect(button).toHaveTextContent('Completed');
+});
+
+test('Remove task from htmlBody', () => {
+  document.body.innerHTML = body.htmlBody
+  const taskContainer = document.querySelector('#taskContainer')
+  let taskList = JSON.parse(localStorage.getItem('taskList'));
+  taskContainer.appendChild(tasks.drawTasksByProject('all'));
+  tasks.removeDomTask(taskList.length - 1)
+  expect(taskContainer).not.toHaveTextContent('Updated name');
+});
+
+test('Create and draw the form for editing the task', () => {
+  document.body.innerHTML = body.htmlBody
+  const taskContainer = document.querySelector('#taskContainer')
+  let taskList = JSON.parse(localStorage.getItem('taskList'));
+  taskContainer.appendChild(tasks.drawTasksByProject('all'));
+  tasks.drawFormTasks(4)
+  expect(document.querySelector('#formName')).toHaveValue('Updated name');
 });
