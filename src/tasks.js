@@ -1,4 +1,4 @@
-import { getProjects } from './projects';
+import { getProjects } from './projects.js';
 
 let taskList = [];
 let isEdited = false;
@@ -127,6 +127,9 @@ function drawTasksByProject(projectName) {
 }
 
 function addTask(name, description, priority, project, dueDate) {
+  if (name === '' || description === '' || priority === '' || project === '' || dueDate === '') {
+    return 'error';
+  }
   const task = Task(name, description, priority, project, dueDate, false);
   taskList.push(task);
   localStorage.setItem('taskList', JSON.stringify(taskList));
@@ -137,16 +140,22 @@ function addTask(name, description, priority, project, dueDate) {
 function changeTask(index) {
   if (taskList[index].completed) {
     taskList[index].completed = false;
+  } else {
+    taskList[index].completed = true;
+  }
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+}
+
+function toggleTask(index) {
+  if (taskList[index].completed) {
     const chkCompleted = document.getElementById(`btnCompleted${index}`);
     chkCompleted.setAttribute('class', 'completTask btn btn-danger');
     chkCompleted.textContent = 'Pending';
   } else {
-    taskList[index].completed = true;
     const chkCompleted = document.getElementById(`btnCompleted${index}`);
     chkCompleted.setAttribute('class', 'completTask btn btn-success');
     chkCompleted.textContent = 'Completed';
   }
-  localStorage.setItem('taskList', JSON.stringify(taskList));
 }
 
 function changePriority(index, priority) {
@@ -155,11 +164,14 @@ function changePriority(index, priority) {
 }
 
 function dltTask(index) {
+  taskList.splice(index, 1);
+  localStorage.setItem('taskList', JSON.stringify(taskList));
+}
+
+function removeDomTask(index) {
   const taskRow = document.getElementById(`tr${index}`);
   const tBody = document.getElementById('tableBody');
   tBody.removeChild(taskRow);
-  taskList.splice(index, 1);
-  localStorage.setItem('taskList', JSON.stringify(taskList));
 }
 
 function createFormTasks(task, i) {
@@ -241,12 +253,12 @@ function insertAfter(newNode, existingNode) {
   }
 }
 
-function updateTask(index) {
-  taskList[index].name = document.querySelector('#formName').value;
-  taskList[index].description = document.querySelector('#formDescription').value;
-  taskList[index].priority = document.querySelector('#formPriority').value;
-  taskList[index].project = document.querySelector('#editProjectForm').value;
-  taskList[index].dueDate = document.querySelector('#formDate').value;
+function updateTask(index, name, description, priority, project, dueDate) {
+  taskList[index].name = name;
+  taskList[index].description = description;
+  taskList[index].priority = priority;
+  taskList[index].project = project;
+  taskList[index].dueDate = dueDate;
   localStorage.setItem('taskList', JSON.stringify(taskList));
   isEdited = false;
   return taskList[index].project;
@@ -262,5 +274,13 @@ function drawFormTasks(index) {
 }
 
 export {
-  addTask, drawTasksByProject, changeTask, dltTask, changePriority, drawFormTasks, updateTask,
+  addTask,
+  drawTasksByProject,
+  removeDomTask,
+  changeTask,
+  dltTask,
+  changePriority,
+  drawFormTasks,
+  updateTask,
+  toggleTask,
 };
